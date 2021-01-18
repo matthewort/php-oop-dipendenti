@@ -18,41 +18,74 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
 
     <?php 
 
-        class Persona {
-            public $personName;
-            public $personLastName;
-            public $personBirth;
+        class Persona { //TUTTO GIUSTO
+            public $name;
+            public $lastname;
+            public $dateOfBirth;
 
-            public function __construct($personName, $personLastName, $personBirth) {
-                $this -> name = $personName;
-                $this -> lastname = $personLastName;
-                $this -> dateOfBirth = $personBirth;
+            public function __construct($name, $lastname, $dateOfBirth) {
+                $this -> name = $name;
+                $this -> lastname = $lastname;
+                $this -> dateOfBirth = $dateOfBirth;
             }
 
             public function __toString() {
                 return
-                    "Person's name: " . $this -> personName
-                    . "Person's last name: " . $this -> personLastName
-                    . "Person's birth year: " . $this -> personBirth;
+                    "Person's name: " . $this -> name . '<br>'
+                    . "Person's last name: " . $this -> lastname . '<br>'
+                    . "Person's birth year: " . $this -> dateOfBirth;
             }
-        }
+        } //TUTTO GIUSTO
         class Dipendente extends Persona {
             public $mansione;
             public $contratto;
             public $location;
 
-            public function __construct($personName, $personLastName, $personBirth, $mansione, $contratto, $location) {
+            public function __construct($name, $lastname, $dateOfBirth, $mansione, $contratto, $location) {
 
-                parent::__construct($personName, $personLastName, $personBirth);
+                parent::__construct($name, $lastname, $dateOfBirth);
                 $this -> mansione = $mansione;
                 $this -> contratto = $contratto;
                 $this -> location = $location;
             }
 
-        }
-        class Boss {
+            public function __toString() {
+                return
+                    parent::__toString() . '<br>'
+                    . "Employee's job: " . $this -> mansione . "<br>"
+                    . "Employee's contract: " . $this -> contratto . "<br>"
+                    . "Employee's location: " . $this -> location;
+            }
 
         }
+        class Boss extends Persona {  //se volessi prendere solo alcuni dati da Dipendente come farei?
+            public $posizione;
+            public $azienda;
+            public $indirizzo;
+
+            public function __construct($name, $lastname, $dateOfBirth, $posizione, $azienda, $indirizzo) {
+
+                parent::__construct($name, $lastname, $dateOfBirth);
+                $this -> posizione = $posizione;
+                $this -> azienda = $azienda;
+                $this -> indirizzo = $indirizzo;
+            }
+
+            public function __toString() {
+                return
+                    parent::__toString() . '<br>'
+                    . "Boss' role: " . $this -> posizione . "<br>"
+                    . "Company: " . $this -> azienda . "<br>"
+                    . "Boss' e-mail: " . $this -> indirizzo;
+            }
+        }
+
+        $persona = new Persona('Mario', 'Rossi', '1990');
+        $dipendente = new Dipendente('Michele', 'Bianchi', '1985', 'Developer', 'Indeterminato', 'Verona');
+        $boss = new Dipendente('Davide', 'Azzurri', '1962', 'CEO', 'IBM', 'Milano');
+
+        echo $persona
+         . '<br>----<br>' . $dipendente . '<br>----<br>' . $boss;
 
     ?>
 
