@@ -12,7 +12,7 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dipendenti</title>
 </head>
 <body>
 
@@ -28,6 +28,31 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
                 $this -> lastname = $lastname;
                 $this -> dateOfBirth = $dateOfBirth;
             }
+
+            public function getName() {
+                return $this -> name;
+                }
+
+            public function setName($name) {
+                $this -> name = $name;
+                }    
+
+            public function getLastName() {
+                return $this -> lastname;
+                }
+
+            public function setLastName($lastname) {
+                $this -> lastname = $lastname;
+                }
+                
+            public function getDateOfBirth() {
+                return $this -> dateOfBirth;
+                }
+
+            public function setDateOfBirth($dateOfBirth) {
+                $this -> dateOfBirth = $dateOfBirth;
+                }         
+
 
             public function __toString() {
                 return
