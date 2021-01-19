@@ -66,10 +66,10 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
 
             public function __toString() {
                 return
-                    "name: " . $this -> name . '<br>'
-                    . "last name: " . $this -> lastname . '<br>'
-                    . "birth year: " . $this -> dateOfBirth . '<br>'
-                    . "security level: " . $this -> securyLvl;
+                    "name: " . $this -> getName() . '<br>'  //non capisco la differenza tra mettere name e getName()
+                    . "last name: " . $this -> getLastname() . '<br>'
+                    . "birth year: " . $this -> getDateOfBirth() . '<br>'
+                    . "security level: " . $this -> getSecuryLvl() . '<br>';
             }
         } //TUTTO GIUSTO
 
@@ -126,7 +126,7 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
                     . "ral: " . $this -> ral . '<br>'
                     . "mainTask: " . $this -> mainTask . '<br>'
                     . "idCode: " . $this -> idCode . '<br>'
-                    . "dateOfHiring: " . $this -> dateOfHiring;
+                    . "dateOfHiring: " . $this -> dateOfHiring . '<br>';
             }
         }
         class Boss extends Employee {
@@ -178,10 +178,22 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
 
             public function __toString() {
                 return parent::__toString() . '<br>'
-                    . "profit: " . $this -> profit . '<br>'
-                    . "vacancy: " . $this -> vacancy . '<br>'
-                    . "sector: " . $this -> sector . '<br>'
-                    . "employees: " . $this -> employees;
+                    . "profit: " . $this -> getProfit() . '<br>'
+                    . "vacancy: " . $this -> getVacancy() . '<br>'
+                    . "sector: " . $this -> getSector() . '<br>'
+                    . "employees: " . $this -> getEmployees() . '<br>';
+            }
+
+            private function getEmpsStr() {
+
+                $str = '';
+                for ($x=0; $x < count($this -> getEmployees()); $x++) { 
+                    $emp = $this -> getEmployees()[$x];
+                    $fullname = $emp -> getName() . ' ' . $emp -> getLastname();
+                    $str .= ($x + 1) . ': ' . $fullname . '<br>';
+                }
+
+                return $str;
             }
 
         }
@@ -195,7 +207,7 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
             'securyLvl'
         );
 
-        echo 'p1:<br>' . $p1 . '<br><br>';
+        echo 'p1:<br>' . $p1 . '<br>----<br><br><br>';
 
         $e1 = new Employee(
             'name', 
@@ -208,7 +220,7 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
             'dateOfHiring'
         );
 
-        echo 'e1:<br>' . $e1 . '<br><br>';
+        echo 'e1:<br>' . $e1 . '<br>----<br><br><br>';
 
         $b1 = new Boss(
             'name', 
@@ -222,9 +234,8 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
             'profit', 
             'vacancy', 
             'sector', 
-            'employees'
+            [$e1, $e1, $e1, $e1, $e1]
         );
-
         echo 'b1:<br>' . $b1 . '<br><br>';
     ?> 
 
