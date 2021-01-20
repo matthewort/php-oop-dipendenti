@@ -1,11 +1,15 @@
-<!-- TODO TODAYGOAL: php-oop-dipendenti
+<!-- TODO TODAY
+
 REPO: 
-creare 3 classi per rappresentare la seguente realta':
-- persona
-- dipendente
-- boss
-cercare inoltre di scegliere alcune variabili di istanza (max 3 o 4 per classe) che possono avere senso in questa realtà e decidere le relazione di parantela (chi estende chi);
-per ogni classe definire eventuale classe padre, variabili di istanza, costruttore, proprieta' e toString;instanziando le varie classi provare a stampare cercando di ottenere un log sensato -->
+php-oop-dipendenti
+
+GOAL: sulla base dell'esercizio di ieri (vedi correzione qui su slack) aggiungere i seguenti vincoli di integrita':
+- nomi e cognomi devono essere di >3 caratteri
+- i livelli di sicurezza devono essere [1;5] per i dipendenti e [6;10] per i boss
+- ral employee [10.000;100.000]
+- non puo' esistere boss senza dipendenti
+
+Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore e informare l'utente -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -197,8 +201,6 @@ per ogni classe definire eventuale classe padre, variabili di istanza, costrutto
             }
 
         }
-
-
 
         $p1 = new Person(
             'name', 
