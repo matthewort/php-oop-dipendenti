@@ -91,7 +91,14 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
     class LastNameChars extends Exception {} 
 
     try {
-        $p1 = new Person('string', 'Rsso', 1990, 'high'); 
+
+        $p1 = new Person(
+            'string', 
+            'Rsso', 
+            1990, 
+            'high'
+        ); 
+
     } catch (OnlyPositiveValue $opvE) {
         echo "Error: date of birth is not valid! Only positive values are accepted";
     } catch (OnlyIntegerValue $oivE) {
