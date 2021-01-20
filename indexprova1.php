@@ -32,13 +32,9 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
         public function setName($name) {
             if (strlen($name) < 3) {
                 
-                throw new OnlyPositiveValueN ('only positive value accepted');
+                throw new NameChars ('only >3 characters accepted');
                 }
-            if (!is_int($name)) {  //non ho ancora capito perché mettere la negazione !
-
-                throw new OnlyIntegerValueN ('only integer value');
-                
-                }
+           
             $this -> name = $name;
             }    
 
@@ -47,6 +43,10 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             }
 
         public function setLastName($lastname) {
+            if (strlen($lastname) < 3) {
+                
+                throw new NameChars ('only >3 characters accepted');
+                }
             $this -> lastname = $lastname;
             }
             
@@ -87,20 +87,18 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
 
     class OnlyPositiveValue extends Exception {}  //ma "Exception" è integrata nel codice senza che si veda?
     class OnlyIntegerValue extends Exception {}
-    class OnlyPositiveValueN extends Exception {}  //ma "Exception" è integrata nel codice senza che si veda?
-    class OnlyIntegerValueN extends Exception {}
+    class NameChars extends Exception {} 
+    class LastNameChars extends Exception {} 
 
     try {
-        $p1 = new Person('string', 'Rossi', 1990, 'high'); 
+        $p1 = new Person('string', 'Rsso', 1990, 'high'); 
     } catch (OnlyPositiveValue $opvE) {
         echo "Error: date of birth is not valid! Only positive values are accepted";
     } catch (OnlyIntegerValue $oivE) {
         echo "Error: date of birth is not valid! Only integer values are accepted";
-    } catch (OnlyPositiveValueN $e) {
-        echo "HA";
-    } catch (OnlyIntegerValueN $e) {
-        echo "HA";
-    }
+    } catch (NameChars $e) {
+        echo "Error: the name must contain more than 3 characters";
+    } 
     
     echo $p1;
 ?>
