@@ -12,7 +12,7 @@ GOAL: sulla base dell'esercizio di ieri (vedi correzione qui su slack) aggiunger
 Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore e informare l'utente -->
 
 <?php
-    class Person { //TUTTO GIUSTO
+    class Person { //PERSON
         private $name;
         private $lastname;
         private $dateOfBirth;
@@ -55,15 +55,6 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             }
 
         public function setDateOfBirth($dateOfBirth) {
-            if ($dateOfBirth <= 0) {
-                
-                throw new OnlyPositiveValue ('only positive value accepted');
-                }
-            if (!is_int($dateOfBirth)) {  //non ho ancora capito perché mettere la negazione !
-
-                throw new OnlyIntegerValue ('only integer value');
-                
-                }
                 $this -> dateOfBirth = $dateOfBirth;
             }
             
@@ -72,9 +63,12 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             }
 
         public function setSecuryLvl($securyLvl) {
-            $this -> securyLvl = $securyLvl;
-            }     
-
+            if (($securyLvl > 5) && ($securyLvl < 1)) {
+                
+                throw new SecurityRange ('only specific range accepted');
+                }
+                $this -> securyLvl = $securyLvl;
+            }
 
         public function __toString() {
             return
@@ -83,9 +77,9 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
                 . "birth year: " . $this -> getDateOfBirth() . '<br>'
                 . "security level: " . $this -> getSecuryLvl() . '<br>';
         }
-    } //TUTTO GIUSTO
+    } //FINE PERSON
 
-    class Employee extends Person {
+    class Employee extends Person { //EMPLOYEE
         private $ral;
         private $mainTask;
         private $idCode;
@@ -139,26 +133,83 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
                 . "mainTask: " . $this -> mainTask . '<br>'
                 . "idCode: " . $this -> idCode . '<br>'
                 . "dateOfHiring: " . $this -> dateOfHiring . '<br>';
+        }   
+    } //FINE EMPLOYEE
+
+    class Boss extends Employee {  //BOSS
+        private $profit;
+        private $vacancy;
+        private $sector;
+        private $employees;
+        
+        public function __construct($name, $lastname, $dateOfBirth, $securyLvl, $ral, $mainTask, $idCode, $dateOfHiring, $profit, $vacancy, $sector, $employees = []) {
+
+            parent::__construct($name, $lastname, $dateOfBirth, $securyLvl, $ral, $mainTask, $idCode, $dateOfHiring);
+            $this -> setProfit($profit);
+            $this -> setVacancy($vacancy);
+            $this -> setSector($sector);
+            $this -> setEmployees($employees);
         }
+
+        public function getProfit() {
+            return $this -> profit;
+            }
+
+        public function setProfit($profit) {
+            $this -> profit = $profit;
+            }    
+
+        public function getVacancy() {
+            return $this -> vacancy;
+            }
+
+        public function setVacancy($vacancy) {
+            $this -> vacancy = $vacancy;
+            }
+            
+        public function getSector() {
+            return $this -> sector;
+            }
+
+        public function setSector($sector) {
+            $this -> sector = $sector;
+            }
+            
+        public function getEmployees() {
+            return $this -> employees;
+            }
+
+        public function setEmployees($employees) {
+            $this -> employees = $employees;
+            }     
+
+        public function __toString() {
+            return parent::__toString() . '<br>'
+                . "profit: " . $this -> getProfit() . '<br>'
+                . "vacancy: " . $this -> getVacancy() . '<br>'
+                . "sector: " . $this -> getSector() . '<br>'
+                . "employees: " . $this -> getEmployees() . '<br>';
+        }
+
     }
 
-    class OnlyPositiveValue extends Exception {}  //ma "Exception" è integrata nel codice senza che si veda?
-    class OnlyIntegerValue extends Exception {}
-    class NameChars extends Exception {} 
-    class LastNameChars extends Exception {} 
+    class NameChars extends Exception {} //ma "Exception" è integrata nel codice senza che si veda?
+    class SecurityRange extends Exception {} 
 
     try {
 
         $p1 = new Person(
             'string', 
             'Rsso', 
-            1990, 
-            'high'
+            '11-11-1960', 
+            0
         ); 
 
     } catch (NameChars $e) {
         echo "Error: the name must contain more than 3 characters";
-    } 
+    } catch (SecurityRange $e) {
+        echo "Error: the employee's security range must go from 1 to 5";
+    }
     
     echo 'p1:<br>' . $p1 . '<br>----<br><br><br>';
 
@@ -167,8 +218,8 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
         $e1 = new Employee(
             'name', 
             'lastname', 
-            1990, 
-            'securyLvl', 
+            '11-11-1960', 
+            0, 
             'ral', 
             'mainTask', 
             'idCode', 
@@ -180,9 +231,29 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
     } 
     
     echo 'e1:<br>' . $e1 . '<br>----<br><br><br>';
-       
-   
+    
+    try {
 
+        $b1 = new Boss(
+            'name', 
+            'lastname', 
+            '11-11-1960', 
+            0, 
+            'ral', 
+            'mainTask', 
+            'idCode', 
+            'dateOfHiring',
+            'profit', 
+            'vacancy', 
+            'sector', 
+            'employees'
+        );
+
+    } catch (NameChars $e) {
+        echo "Error: the name must contain more than 3 characters";
+    } 
+
+    echo 'b1:<br>' . $b1 . '<br><br>';
 ?>
 
 
