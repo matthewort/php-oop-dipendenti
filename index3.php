@@ -29,7 +29,7 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             return $this -> name;
             }
 
-        public function setName($name) {
+        public function setName($name) {  //se volessi questa condizione solo per uno mi basterebbe specificare nelle altre classi la stessa funzione ma senza la condizione?
             if (strlen($name) < 3) {
                 
                 throw new NameChars ('only >3 characters accepted');
@@ -63,10 +63,6 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             }
 
         public function setSecuryLvl($securyLvl) {
-            if (($securyLvl > 5) && ($securyLvl < 1)) {
-                
-                throw new SecurityRange ('only specific range accepted');
-                }
                 $this -> securyLvl = $securyLvl;
             }
 
@@ -99,7 +95,11 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             }
 
         public function setRal($ral) {
-            $this -> ral = $ral;
+            if (($ral > 100000) || ($ral < 10000)) {
+
+                throw new RalRange ('only specific range accepted');
+                }
+                $this -> ral = $ral;
             }    
 
         public function getMainTask() {
@@ -124,7 +124,19 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
 
         public function setDateOfHiring($dateOfHiring) {
             $this -> dateOfHiring = $dateOfHiring;
-            }     
+            }
+            
+        public function getSecuryLvl() {
+            return $this -> securyLvl;
+            }
+
+        public function setSecuryLvl($securyLvl) {
+            if (($securyLvl > 5) || ($securyLvl < 1)) {
+                
+                throw new SecurityRange ('only specific range accepted');
+                }
+                $this -> securyLvl = $securyLvl;
+            }    
 
 
         public function __toString() {
@@ -181,8 +193,8 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
 
         public function setEmployees($employees) {
             $this -> employees = $employees;
-            }     
-
+            }
+                 
         public function __toString() {
             return parent::__toString() . '<br>'
                 . "profit: " . $this -> getProfit() . '<br>'
@@ -195,6 +207,7 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
 
     class NameChars extends Exception {} //ma "Exception" è integrata nel codice senza che si veda?
     class SecurityRange extends Exception {} 
+    class RalRange extends Exception {} 
 
     try {
 
@@ -202,13 +215,11 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             'string', 
             'Rsso', 
             '11-11-1960', 
-            0
+            1
         ); 
 
     } catch (NameChars $e) {
-        echo "Error: the name must contain more than 3 characters";
-    } catch (SecurityRange $e) {
-        echo "Error: the employee's security range must go from 1 to 5";
+        echo "Error: the name must contain more than 3 characters"; //al posto di questo potrebbe starci il getMessage() che si riferisce direttamente a quanto scritto sopra giusto?
     }
     
     echo 'p1:<br>' . $p1 . '<br>----<br><br><br>';
@@ -219,8 +230,8 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             'name', 
             'lastname', 
             '11-11-1960', 
-            0, 
-            'ral', 
+            1, 
+            18000, 
             'mainTask', 
             'idCode', 
             'dateOfHiring'
@@ -228,7 +239,11 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
 
     } catch (NameChars $e) {
         echo "Error: the name must contain more than 3 characters";
-    } 
+    } catch (SecurityRange $e) {
+        echo "Error: the employee's security range must go from 1 to 5";
+    } catch (RalRange $e) {
+        echo "Error: the employee's ral range must go from 1 to 5";
+    }
     
     echo 'e1:<br>' . $e1 . '<br>----<br><br><br>';
     
@@ -238,8 +253,8 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             'name', 
             'lastname', 
             '11-11-1960', 
-            0, 
-            'ral', 
+            1, 
+            40000, 
             'mainTask', 
             'idCode', 
             'dateOfHiring',
@@ -251,7 +266,11 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
 
     } catch (NameChars $e) {
         echo "Error: the name must contain more than 3 characters";
-    } 
+    } catch (SecurityRange $e) {
+        echo "Error: the employee's security range must go from 1 to 5";
+    } catch (RalRange $e) {
+        echo "Error: the employee's ral range must go from 1 to 5";
+    }
 
     echo 'b1:<br>' . $b1 . '<br><br>';
 ?>
