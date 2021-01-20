@@ -191,9 +191,26 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             return $this -> employees;
             }
 
-        public function setEmployees($employees) {
-            $this -> employees = $employees;
+        public function getSecuryLvl() {
+            return $this -> securyLvl;
             }
+
+        public function setSecuryLvl($securyLvl) {
+            if (($securyLvl > 10) || ($securyLvl < 6)) {
+                
+                throw new SecurityRange ('only specific range accepted');
+                }
+                $this -> securyLvl = $securyLvl;
+            }    
+        
+        public function setEmployees($employees) {
+            if ($employees != 'employees') {
+
+                throw new EmployeePresence ('employees must be present');
+                }
+                $this -> employees = $employees;
+            }    
+
                  
         public function __toString() {
             return parent::__toString() . '<br>'
@@ -208,28 +225,28 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
     class NameChars extends Exception {} //ma "Exception" è integrata nel codice senza che si veda?
     class SecurityRange extends Exception {} 
     class RalRange extends Exception {} 
+    class EmployeePresence extends Exception {} 
 
     try {
 
         $p1 = new Person(
-            'string', 
-            'Rsso', 
-            '11-11-1960', 
+            'Marco', 
+            'Rossi', 
+            '01-12-1990', 
             1
         ); 
-
+        echo 'p1:<br>' . $p1 . '<br>----<br><br><br>';
     } catch (NameChars $e) {
         echo "Error: the name must contain more than 3 characters"; //al posto di questo potrebbe starci il getMessage() che si riferisce direttamente a quanto scritto sopra giusto?
     }
     
-    echo 'p1:<br>' . $p1 . '<br>----<br><br><br>';
 
     try {
 
         $e1 = new Employee(
-            'name', 
-            'lastname', 
-            '11-11-1960', 
+            'Giulio', 
+            'Bianchi', 
+            '03-07-1983', 
             1, 
             18000, 
             'mainTask', 
@@ -237,6 +254,7 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             'dateOfHiring'
         );
 
+        echo 'e1:<br>' . $e1 . '<br>----<br><br><br>';
     } catch (NameChars $e) {
         echo "Error: the name must contain more than 3 characters";
     } catch (SecurityRange $e) {
@@ -244,16 +262,15 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
     } catch (RalRange $e) {
         echo "Error: the employee's ral range must go from 1 to 5";
     }
-    
-    echo 'e1:<br>' . $e1 . '<br>----<br><br><br>';
+
     
     try {
 
         $b1 = new Boss(
-            'name', 
-            'lastname', 
-            '11-11-1960', 
-            1, 
+            'Mario', 
+            'Azzurri', 
+            '11-11-1964', 
+            6, 
             40000, 
             'mainTask', 
             'idCode', 
@@ -263,16 +280,19 @@ Durante la fase di test, utilizzare il costrutto try-catch per gestire l'errore 
             'sector', 
             'employees'
         );
-
+    
+        echo 'b1:<br>' . $b1 . '<br><br>';
     } catch (NameChars $e) {
         echo "Error: the name must contain more than 3 characters";
     } catch (SecurityRange $e) {
         echo "Error: the employee's security range must go from 1 to 5";
     } catch (RalRange $e) {
         echo "Error: the employee's ral range must go from 1 to 5";
+    } catch (EmployeePresence $e) {
+        echo "Error: employees must be present";
     }
 
-    echo 'b1:<br>' . $b1 . '<br><br>';
+    
 ?>
 
 
